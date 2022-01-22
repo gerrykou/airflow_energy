@@ -1,5 +1,5 @@
 # Readme
-An app to monitor the task of downloading data to files from API using airflow
+An app to monitor the task of downloading data to files from an API using Airflow
 
 ## Installing / Getting Started
 
@@ -25,15 +25,12 @@ run docker ps to find airflow-scheduler container id
 docker ps 
 docker exec -it container-id bash
 ```   
-https://airflow.apache.org/docs/apache-airflow/stable/dag-run.html#backfill
-airflow dags backfill \
-    --start-date START_DATE \
-    --end-date END_DATE \
-    dag_id
+https://airflow.apache.org/docs/apache-airflow/stable/dag-run.html#backfill   
+
+airflow dags backfill --start-date START_DATE --end-date END_DATE dag_id   
 
 e.g   
 airflow dags backfill --start-date 2022-01-19 --end-date 2022-01-20 my_dag
-
 
 
 ```shell
