@@ -1,0 +1,6 @@
+/data
+/logs
+/plugins
+/env
+.env
+config_local.py
