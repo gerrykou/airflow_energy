@@ -3,12 +3,12 @@ An app to monitor the task of downloading data to files from an API using Airflo
 
 ## Installing / Getting Started
 
-Install docker compose   
-https://docs.docker.com/compose/install/
+Follow instructions to install docker compose and set up the right Airflow user   
+https://airflow.apache.org/docs/apache-airflow/stable/start/docker.html#running-airflow-in-docker
 
 ### Initial Configuration
 
-Inside the dags folder, add a config_local.py file that should contain url and credentials for the API
+Inside the dags folder, add a config_local.py file that should contain the url and credentials for the API
 
 ENERGY_API_URL = 'your_url'   
 ENERGY_API_UUID = 'your_uuid'   
@@ -35,7 +35,7 @@ airflow dags backfill --start-date 2022-01-19 --end-date 2022-01-20 my_dag
 ```   
 
 ```shell
-docker compose down
+docker-compose down
 ```
 
 Visit localhost   
@@ -45,3 +45,4 @@ http://localhost:8080/
 Readme template from   
 https://github.com/jehna/readme-best-practices/blob/master/README-default.md
 
+docker exec -it 7782a422355a bash

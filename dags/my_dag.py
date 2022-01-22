@@ -21,8 +21,8 @@ DAYS_INTERVAL = 1
 PARENT_DIR = '/data'
 FILENAME = 'datafile.txt'
 SUCCESS_FILENAME = '.success'
-FOLDER_FORMAT = '%Y-%m-%d'
-QUERY_FORMAT = '%Y-%m-%d %H:%M:%SZ'
+FOLDER_FORMAT = '%Y-%m-%d' # date format to create the data folder
+QUERY_FORMAT = '%Y-%m-%d %H:%M:%SZ' # date format to query the Energy API
 DASHBOARD = 'energy'
 
 default_args = {
@@ -49,6 +49,8 @@ default_args = {
 }
 
 class EnergyApi:
+    """This is a class for accessing data from the energy API."""
+
     def __init__(self, date, 
                 api_version='/api/2.0/',):
         self.date_str = date
@@ -57,7 +59,7 @@ class EnergyApi:
         self.installation_uuid = ENERGY_API_UUID
         self.access_token = ENERGY_API_TOKEN
         self.days_interval = DAYS_INTERVAL
-        self.query_format = QUERY_FORMAT#"%Y-%m-%d %H:%M:%SZ" # format to query Energy API
+        self.query_format = QUERY_FORMAT
         self.tz = None
         self.path = os.path.join(PARENT_DIR, self.date_str, 'raw')
         self.dashboard = DASHBOARD
@@ -112,8 +114,8 @@ class EnergyApi:
 
     def fetch_between_day(self, start_time, end_time):
         data_list=[]
-        logging.info("Fetching data for day starting at %s" % start_time.isoformat("T") + "Z")
-        logging.info(f"Sending data starting at {start_time} and ending at {end_time}")
+        logging.info(f'Fetching data for day starting at {start_time.isoformat("T") + "Z"}')
+        logging.info(f'Sending data starting at {start_time} and ending at {end_time}')
         for data in self.iter_data(start_time, end_time):
             logging.debug(data)
             data_list.append(data)
@@ -128,7 +130,7 @@ class EnergyApi:
         return time_str
 
     def _create_aware_time_object(self, naive_time_obj):
-        # creates aware time objects assigning +00:00 for utc
+        '''creates aware time objects assigning +00:00 for utc'''
         aware_time_obj = naive_time_obj.replace(tzinfo=pytz.UTC)
         return aware_time_obj
 
@@ -143,7 +145,8 @@ class EnergyApi:
             f.write(f'')
 
     def _validate_length(self, item_object):
-        if len(item_object['data']) < 144: # data every 10mins for 24hrs 
+        '''check length of received list data. 144 is 10mins for 24hrs'''
+        if len(item_object['data']) < 144:
             raise Exception(f"{item_object['label']} data is not full, length: {len(item_object['data'])}")
 
     def iter_data(self, start_time_obj, end_time_obj):
